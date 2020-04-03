@@ -1,0 +1,239 @@
+/*
+2
+13 5
+1 2 1 2 3 1 2 3 1 3 2 1 2
+1 2 3 1 3
+13 5
+1 2 1 2 3 1 2 3 1 3 2 1 2
+1 2 3 2 1
+*/
+#include<bits\stdc++.h>
+using namespace std;
+int nextt[10010], T[10010];
+int S[1000100];
+int n, m;
+void get_next()
+{
+	int i = 1, j = 0;
+	nextt[1] = 0;
+	while (i < m)
+	{
+		if (j == 0 || T[i] == T[j])
+		{
+			++i;
+			++j;
+			nextt[i] = j;
+		}
+		else {
+			j = nextt[j];
+		}
+	}
+}
+void kmp()
+{
+	int i = 1, j = 1;
+	while (i <= n && j <= m)
+	{
+		if (j == 0 || S[i] == T[j])
+		{
+			++i, ++j;
+		}
+		else
+			j = nextt[j];
+	}
+	if (j > m)
+		printf("%d\n", i - m);
+	else
+		printf("-1\n");
+}
+int main()
+{
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		scanf("%d%d", &n, &m);
+		int i, j;
+		for (i = 1; i <= n; i++)
+			scanf("%d", &S[i]);
+		for (i = 1; i <= m; i++)
+			scanf("%d", &T[i]);
+		S[0] = T[0] = -1;
+		get_next();
+		kmp();
+	}
+	return 0;
+}
+/*
+3
+BAPC
+BAPC
+AZA
+AZAZAZA
+VERDI
+AVERDXIVYERDIAN
+*/
+#include<bits\stdc++.h>
+using namespace std;
+char a[1010000], b[1010000];
+int Next[1010000];
+int i, j;
+void get_next(int n) {
+	Next[0] = 0;
+	i = 1; j = 0;
+	while (i <= n) {
+		if (j == 0 || b[i] == b[j]) {
+			++i; ++j;
+			Next[i] = j;
+		}
+		else {
+			j = Next[j];
+		}
+	}
+}
+
+void kmp(int n, int m) {
+	i = 1; j = 1;
+	int sum = 0;
+	int cnt = 0;
+	while (i <= n) {
+		if (j == 0 || a[i] == b[j]) {
+			++i; ++j;
+		}
+		else {
+			j = Next[j];
+		}
+		if (j > m) {
+			sum++;
+			j = Next[j];
+
+		}
+	}
+	printf("%d\n", sum);
+}
+
+int main() {
+	int T;
+	cin >> T;
+	while (T--) {
+		scanf("%s", b + 1);
+		scanf("%s", a + 1);
+		int la = strlen(a + 1);
+		int lb = strlen(b + 1);
+		get_next(lb);
+		kmp(la, lb);
+	}
+	return 0;
+}
+/*
+abcde a3
+aaaaaa  aa
+#
+*/
+#include<bits\stdc++.h>
+using namespace std;
+char a[1010], b[1010];
+int Next[1010];
+int i, j;
+void get_next(int n) {
+	Next[0] = 0;
+	i = 1; j = 0;
+	while (i < n) {
+		if (j == 0 || b[i] == b[j]) {
+			++i; ++j;
+			Next[i] = j;
+		}
+		else {
+			j = Next[j];
+		}
+	}
+}
+
+void kmp(int n, int m) {
+	i = 1; j = 1;
+	int sum = 0;
+	while (i <= n) {
+		if (j == 0 || a[i] == b[j]) {
+			++i; ++j;
+		}
+		else {
+			j = Next[j];
+		}
+		if (j > m) {
+			sum++; j = 1;
+		}
+	}
+	printf("%d\n", sum);
+}
+
+int main() {
+	while (~scanf("%s", a + 1)) {
+		if (a[1] == '#') {
+			break;
+		}
+		scanf("%s", b + 1);
+		int la = strlen(a + 1);
+		int lb = strlen(b + 1);
+		get_next(lb);
+		kmp(la, lb);
+	}
+	return 0;
+}
+
+/*
+clinton
+homer
+riemann
+marjorie
+*/
+#include<bits\stdc++.h>
+using namespace std;
+char a[1010], b[1010];
+int Next[1010];
+int i, j;
+void get_next(int n) {
+	Next[0] = 0;
+	i = 1; j = 0;
+	while (i < n) {
+		if (j == 0 || b[i] == b[j]) {
+			++i; ++j;
+			Next[i] = j;
+		}
+		else {
+			j = Next[j];
+		}
+	}
+}
+
+void kmp(int n, int m) {
+	i = 1; j = 1;
+	int sum = 0;
+	while (i <= n) {
+		if (j == 0 || a[i] == b[j]) {
+			++i; ++j;
+		}
+		else {
+			j = Next[j];
+		}
+		if (j > m) {
+			sum++; j = 1;
+		}
+	}
+	printf("%d\n", sum);
+}
+
+int main() {
+	while (~scanf("%s", a + 1)) {
+		if (a[1] == '#') {
+			break;
+		}
+		scanf("%s", b + 1);
+		int la = strlen(a + 1);
+		int lb = strlen(b + 1);
+		get_next(lb);
+		kmp(la, lb);
+	}
+	return 0;
+}
+
+

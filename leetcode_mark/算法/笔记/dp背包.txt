@@ -1,0 +1,41 @@
+01背包
+全部初始化为0
+for (int i = 1;i<=n;i++){
+	for (int j = V;j>=w[i];j--){
+		dp[j]= max(dp[j],dp[j-w[i]]+v[i]);
+	}
+}
+
+
+
+完全背包，求方案数
+全部初始化为0,,,dp[0]=1;
+
+for (int i = 1;i<=n;i++){
+	for (int j = w[i];j<=V;j++){
+		dp[j]= dp[j]+dp[j-w[i]];
+	}
+}
+
+编辑距离
+		for (int i = 0; i <= al; i++) {
+			for (int j = 0; j <= bl; j++) {
+				dp[i][j] = 9999999;
+			}
+		}
+		for (int i = 0; i <= a.length(); i++) {
+			dp[i][0] = i;
+		}
+		for (int i = 0; i <= b.length(); i++) {
+			dp[0][i] = i;
+		}
+		for (int i = 1; i <= al; i++) {
+			for (int j = 1; j <= bl; j++) {
+				if (a[i-1] == b[j-1]) {
+					dp[i][j] = dp[i - 1][j - 1];
+				}
+				else {
+					dp[i][j] =min(dp[i-1][j - 1], min(dp[i - 1][j],dp[i][j-1]))+1;
+				}
+			}
+		}

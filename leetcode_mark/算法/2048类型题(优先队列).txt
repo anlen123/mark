@@ -1,0 +1,84 @@
+	priority_queue<ll, vector<ll>, greater<ll> > q;          从小到大
+                priority_queue<ll> q                         从大到小
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#include <cstring>
+#include <cctype>
+#include <queue>
+#include <map>
+#include <string>
+#include <vector>
+#include <set>
+#include <math.h>
+#include <stack>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+#define ll long long
+#define chushihua(x,y) memset(x,y,sizeof x)
+using namespace std;
+const ll MAXX = 2 * (1000000 + 10);
+const double PI = 3.14159265358979323846;
+const ll mod = 1000000007;
+#define rep(i,a,b) for(int i=a;i<=b;i++)
+//ll gcd(ll a, ll b)
+//{
+//	return a % b ? gcd(b, a%b) : b;
+//}
+ll sum = 0;
+int  main() {
+	priority_queue<ll, vector<ll>, greater<ll> > q;
+	ll n;
+	while (cin >> n) {
+		while (!q.empty()) {
+			q.pop();
+		}
+		for (ll i = 0; i < n; i++) {
+			ll x;
+			scanf("%lld", &x);
+			q.push(x);
+		}
+		if (n == 1) {
+			cout << "0" << endl;
+			continue;
+		}
+		sum = 0;
+		bool flag = 0;
+		while (!q.empty()) {
+			ll xx = q.top();
+			//cout << xx << "**" << endl;
+			q.pop();
+			if (!q.empty()) {
+				if (xx == q.top()) {
+					q.pop();
+					q.push(xx*2);
+				}
+				else {
+					while (q.top() > xx) {
+						sum++;
+						xx = xx * 2;
+					}
+					if (xx == q.top()) {
+						q.pop();
+						q.push(xx * 2);
+					}
+					else {
+						flag = 1;
+						break;
+					}
+				}
+			}
+		}
+		//cout << flag << "*" << endl;
+		if (flag == 0) {
+			cout << sum << endl;
+		}
+		else {
+			cout << "-1" << endl;
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,60 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#include <cstring>
+#include <cctype>
+#include <queue>
+#include <map>
+#include <string>
+#include <vector>
+#include <set>
+#include <math.h>
+#include <stack>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+#define ll long long
+#define chushihua(x,y) memset(x,y,sizeof x)
+#define rep(i,a,b) for(int i=a;i<=b;i++)
+using namespace std;
+const ll MAXX = 2 * (1000000 + 10);
+const double PI = 3.14159265358979323846;
+const ll mod = 1000000007;
+int a[MAXX];
+int vis[MAXX];
+int num[MAXX];
+queue <int > q;
+int main() {
+	int n;
+	cin >> n;
+	rep(i, 0, n - 1) {
+		scanf("%d", &a[i]);
+		num[a[i]]++;
+	}
+	int ans = 0;
+	rep(i, 1, n) {
+		if (num[i] == 0) {
+			q.push(i);
+			ans++;
+		}
+	}
+	rep(i, 0, n - 1) {
+		if (num[a[i]] > 1) {
+			if (vis[a[i]] == 0 && q.front() > a[i]) {
+				vis[a[i]] = 1;
+			}
+			else {
+				num[a[i]]--;
+				a[i] = q.front();
+				q.pop();
+			}
+		}
+	}
+	printf("%d\n", ans);
+	rep(i, 0, n - 1) {
+		printf("%d ", a[i]);
+	}
+	return 0;
+}

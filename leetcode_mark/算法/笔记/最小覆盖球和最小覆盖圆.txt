@@ -1,0 +1,116 @@
+//最小覆盖圆
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<ctime>
+using namespace std;
+typedef long long lt;
+#define eps 1e-6
+#define sqr(x) ((x)*(x))
+ 
+const int maxn=1000010;
+int n;
+struct point{
+	double x,y;
+}p[maxn],O;
+double R;//半径 
+ 
+double getd(point a,point b){ //求直径 
+	return sqrt(sqr(a.x-b.x)+sqr(a.y-b.y));
+}
+point getO(point p1,point p2,point p3) { //求圆心 
+    point res;
+    double a=p2.x-p1.x;
+	double b=p2.y-p1.y;
+	double c=p3.x-p2.x;
+	double d=p3.y-p2.y;
+    double e=sqr(p2.x)+sqr(p2.y)-sqr(p1.x)-sqr(p1.y);
+    double f=sqr(p3.x)+sqr(p3.y)-sqr(p2.x)-sqr(p2.y);
+    res.x=(f*b-e*d)/(c*b-a*d)/2.0; 
+    res.y=(a*f-e*c)/(a*d-b*c)/2.0;
+    return res;
+}
+void mincir() {
+    O=p[1]; 
+	R=0;
+    for(int i=1;i<=n;++i){
+	    if(getd(p[i],O)-R>eps) { //不在圆内 
+	        O=p[i]; 
+			R=0;
+	        for(int j=1;j<i;j++) { 
+		        if(getd(p[j],O)-R>eps) {//不在圆内 
+		            O=(point){(p[i].x+p[j].x)/2.0,(p[i].y+p[j].y)/2.0};
+		            R=getd(p[i],p[j])/2.0;
+		            for(int k=1;k<j;++k)
+		            if(getd(p[k],O)-R>eps) {//不在圆内 
+		                O=getO(p[i],p[j],p[k]);  //外接圆 
+		                R=getd(p[i],O);
+		            }
+		        }
+		    } 
+	    }
+	} 
+} 
+ 
+int main()
+{
+    cin>>n;
+    for(int i=1;i<=n;++i)
+    scanf("%lf%lf",&p[i].x,&p[i].y);
+    random_shuffle(p+1,p+1+n);// random_shuffle()随机打乱函数 首指针 尾指针 
+    mincir();
+    printf("%.3f",R);
+    return 0;
+}
+
+
+
+//最小覆盖球
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+#include<cstdio>
+#include<cmath>
+using namespace std;
+const double eps=1e-5;
+struct POINT{
+    double x,y,z;
+}p[110],op;//N个点
+int n;
+double dist(POINT &a,POINT &b){//两点距离
+    return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y)+(a.z-b.z)*(a.z-b.z));
+}
+double solve(){
+    double ret,delta=100.0;//温度
+    double maxDis,tempDis;
+    int i,id;
+    while(delta>eps){
+        id=0;
+        maxDis=dist(op,p[id]);
+        for(i=1;i<n;i++){
+            tempDis=dist(op,p[i]);
+            if(tempDis>maxDis){
+                maxDis=tempDis;
+                id=i;
+            }
+        }
+        ret=maxDis;
+        op.x+=(p[id].x-op.x)/maxDis*delta;
+        op.y+=(p[id].y-op.y)/maxDis*delta;
+        op.z+=(p[id].z-op.z)/maxDis*delta;
+        delta*=0.98;
+    }
+    return ret;//最小球半径
+}
+int main(){
+    while(scanf("%d",&n)!=EOF&&n){
+        for(int i=0;i<n;i++){
+            scanf("%lf%lf%lf",&p[i].x,&p[i].y,&p[i].z);
+        }
+        printf("%.5f\n", solve());
+    }
+    return 0;
+}

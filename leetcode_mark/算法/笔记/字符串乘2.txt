@@ -1,0 +1,27 @@
+	while (cin >> a >> b) {
+		cout << a << " ";
+		int len = a.length();
+		//cout << len << endl;
+		int aa[100];
+		chushihua(aa, 0);
+		int pos = 0;
+		for (int i = len - 1; i >= 0; i--) {
+			int x = (a[i] - '0') % 10;
+			int j = 0;
+			aa[pos++] += x * 2% 10;
+			j = x * 2 / 10;
+			aa[pos] = j;
+		}
+		//cout << pos << endl;
+		for (int i = pos; i >= 0; i--) {
+			if (i == pos) {
+				if (aa[pos] != 0) {
+					printf("%d", aa[pos]);
+				}
+			}
+			else {
+				printf("%d", aa[i]);
+			}
+		}
+		cout << endl;
+	}
